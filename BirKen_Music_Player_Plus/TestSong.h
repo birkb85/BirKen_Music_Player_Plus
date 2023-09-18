@@ -9,7 +9,7 @@ const int testSongNotes[] PROGMEM = {
 };
 
 const int testSongDurations[] PROGMEM = {
-  32, 32, 32, 32, 32, 32, 32, 32
+  960, 960, 960, 960, 960, 960, 960, 960
 };
 
 #endif

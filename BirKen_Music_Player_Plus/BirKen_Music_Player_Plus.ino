@@ -3,11 +3,11 @@
 
 #include <Tone.h>  // https://github.com/bhagman/Tone
 #include "Notes.h"
-#include "Thunder.h"
 #include "Song69.h"
+#include "TestSong.h"
+#include "Thunder.h"
 #include "Sang_57_enkel.h"
 #include "Holding_fast_enkel.h"
-#include "TestSong.h"
 
 Tone tones[2];
 int noteIndexes[2] = { 0, 0 };
@@ -42,16 +42,17 @@ void loop(void) {
 
   // ---- PLAY TRACKS BELOW HERE ----
 
-  // playTrack(0, testSongNotes, testSongDurations, testSongSize, testSongDurationMultiplier);
+  playTrack(0, song69Notes, song69Durations, song69Size);
 
-  // playTrack(0, thunderNotes, thunderDurations, thunderSize, thunderDurationMultiplier);
-  // playTrack(1, thunderNotes, thunderDurations, thunderSize, thunderDurationMultiplier);
+  // playTrack(0, testSongNotes, testSongDurations, testSongSize);
+
+  // playTrack(0, thunderNotes, thunderDurations, thunderSize);
 
   // playTrack(0, Sang_57_enkel_Notes1, Sang_57_enkel_Durations1, Sang_57_enkel_Size1);
   // playTrack(1, Sang_57_enkel_Notes2, Sang_57_enkel_Durations2, Sang_57_enkel_Size2);
 
-  playTrack(0, Holding_fast_enkel_Notes1, Holding_fast_enkel_Durations1, Holding_fast_enkel_Size1);
-  playTrack(1, Holding_fast_enkel_Notes2, Holding_fast_enkel_Durations2, Holding_fast_enkel_Size2);
+  // playTrack(0, Holding_fast_enkel_Notes1, Holding_fast_enkel_Durations1, Holding_fast_enkel_Size1);
+  // playTrack(1, Holding_fast_enkel_Notes2, Holding_fast_enkel_Durations2, Holding_fast_enkel_Size2);
 }
 
 void playTrack(int toneIndex, int *notes, int *durations, int size) {
