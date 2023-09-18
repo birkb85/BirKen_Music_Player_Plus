@@ -1,8 +1,12 @@
+// Source available on:
+// https://github.com/birkb85/BirKen_Music_Player_Plus
+
 #include <Tone.h>  // https://github.com/bhagman/Tone
 #include "Notes.h"
 #include "Thunder.h"
 #include "Song69.h"
-#include "Sang_57_enkel_lysere_bass.h"
+#include "Sang_57_enkel.h"
+#include "Holding_fast_enkel.h"
 #include "TestSong.h"
 
 Tone tones[2];
@@ -29,20 +33,25 @@ void loop(void) {
   timeElapsed = time - timeOld;
   timeOld = time;
 
-  // Bare lige hurtig mulighed for at afbryde den så man ikke bliver sindsyg. :P
-  if (time > 60000) {
-    tones[0].stop();
-    tones[1].stop();
-    return;
-  }
+  // Possibility of cutting sound after an amount of millis, so you dont go crazy :P
+  // if (time > 60000) {
+  //   tones[0].stop();
+  //   tones[1].stop();
+  //   return;
+  // }
+
+  // ---- PLAY TRACKS BELOW HERE ----
 
   // playTrack(0, testSongNotes, testSongDurations, testSongSize, testSongDurationMultiplier);
 
   // playTrack(0, thunderNotes, thunderDurations, thunderSize, thunderDurationMultiplier);
   // playTrack(1, thunderNotes, thunderDurations, thunderSize, thunderDurationMultiplier);
 
-  playTrack(0, Sang_57_enkel_lysere_bass_Notes1, Sang_57_enkel_lysere_bass_Durations1, Sang_57_enkel_lysere_bass_Size1);
-  playTrack(1, Sang_57_enkel_lysere_bass_Notes2, Sang_57_enkel_lysere_bass_Durations2, Sang_57_enkel_lysere_bass_Size2);
+  // playTrack(0, Sang_57_enkel_Notes1, Sang_57_enkel_Durations1, Sang_57_enkel_Size1);
+  // playTrack(1, Sang_57_enkel_Notes2, Sang_57_enkel_Durations2, Sang_57_enkel_Size2);
+
+  playTrack(0, Holding_fast_enkel_Notes1, Holding_fast_enkel_Durations1, Holding_fast_enkel_Size1);
+  playTrack(1, Holding_fast_enkel_Notes2, Holding_fast_enkel_Durations2, Holding_fast_enkel_Size2);
 }
 
 void playTrack(int toneIndex, int *notes, int *durations, int size) {
@@ -59,8 +68,8 @@ void playTrack(int toneIndex, int *notes, int *durations, int size) {
     int duration = pgm_read_word_near(durations + noteIndexes[toneIndex]);
 
     if (note > 0) {
-      if (noteNext > 0 && noteNext == note && duration > 20) {
-        tones[toneIndex].play(note, duration - 20);
+      if (noteNext > 0 && noteNext == note && duration > 50) {
+        tones[toneIndex].play(note, duration - 50);
       } else {
         tones[toneIndex].play(note);
       }
