@@ -18,7 +18,7 @@ unsigned long timeOld;
 unsigned long timeElapsed;
 
 void setup(void) {
-  //Serial.begin(9600);
+  //Serial.begin(2000000); //(9600);
 
   tones[0].begin(5);
   tones[1].begin(6);
@@ -33,6 +33,8 @@ void loop(void) {
   timeElapsed = time - timeOld;
   timeOld = time;
 
+  //Serial.println(timeElapsed);
+
   // Possibility of cutting sound after an amount of millis, so you dont go crazy :P
   // if (time > 60000) {
   //   tones[0].stop();
@@ -42,7 +44,7 @@ void loop(void) {
 
   // ---- PLAY TRACKS BELOW HERE ----
 
-  playTrack(0, song69Notes, song69Durations, song69Size);
+  // playTrack(0, song69Notes, song69Durations, song69Size);
 
   // playTrack(0, testSongNotes, testSongDurations, testSongSize);
 
@@ -51,8 +53,8 @@ void loop(void) {
   // playTrack(0, Sang_57_enkel_Notes1, Sang_57_enkel_Durations1, Sang_57_enkel_Size1);
   // playTrack(1, Sang_57_enkel_Notes2, Sang_57_enkel_Durations2, Sang_57_enkel_Size2);
 
-  // playTrack(0, Holding_fast_enkel_Notes1, Holding_fast_enkel_Durations1, Holding_fast_enkel_Size1);
-  // playTrack(1, Holding_fast_enkel_Notes2, Holding_fast_enkel_Durations2, Holding_fast_enkel_Size2);
+  playTrack(0, Holding_fast_enkel_Notes1, Holding_fast_enkel_Durations1, Holding_fast_enkel_Size1);
+  playTrack(1, Holding_fast_enkel_Notes2, Holding_fast_enkel_Durations2, Holding_fast_enkel_Size2);
 }
 
 void playTrack(int toneIndex, int *notes, int *durations, int size) {
