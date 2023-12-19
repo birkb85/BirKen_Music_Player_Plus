@@ -12,6 +12,14 @@
 Tone tones[2];
 int noteIndexes[2] = { 0, 0 };
 int noteDurations[2] = { 0, 0 };
+int songNumber = 0;
+int buttonDelay = 0;
+
+const int speaker1Pin = 8;  
+const int speaker2Pin = 5;  
+const int buttonPin = A0;  // the number of the pushbutton pin to change song
+
+bool buttonPressed = false;
 
 unsigned long time;
 unsigned long timeOld;
@@ -20,8 +28,10 @@ unsigned long timeElapsed;
 void setup(void) {
   //Serial.begin(2000000); //(9600);
 
-  tones[0].begin(5);
-  tones[1].begin(6);
+  tones[0].begin(speaker1Pin);
+  tones[1].begin(speaker2Pin);
+
+  pinMode(buttonPin, INPUT);
 
   time = millis();
   timeOld = time;
@@ -33,10 +43,23 @@ void loop(void) {
   timeElapsed = time - timeOld;
   timeOld = time;
 
+  int buttonState = digitalRead(buttonPin);
+
+  // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
+  if (buttonState == HIGH && buttonPressed == false && buttonDelay <= 0) {
+    changeTrack(songNumber+1);
+    buttonPressed = true;
+  } else if (buttonState == LOW && buttonPressed == true && buttonDelay <= 0) {
+    buttonPressed = false;
+    buttonDelay = 500;
+  }
+
+  if (buttonDelay > 0) buttonDelay -= timeElapsed;
+
   //Serial.println(timeElapsed);
 
   // Possibility of cutting sound after an amount of millis, so you dont go crazy :P
-  // if (time > 60000) {
+  // if (time > 1000) {
   //   tones[0].stop();
   //   tones[1].stop();
   //   return;
@@ -44,17 +67,40 @@ void loop(void) {
 
   // ---- PLAY TRACKS BELOW HERE ----
 
-  // playTrack(0, song69Notes, song69Durations, song69Size);
+  switch(songNumber) {
+    case 0:
+      playTrack(0, Holding_fast_enkel_Notes1, Holding_fast_enkel_Durations1, Holding_fast_enkel_Size1);
+      playTrack(1, Holding_fast_enkel_Notes2, Holding_fast_enkel_Durations2, Holding_fast_enkel_Size2);
+      break;
 
-  // playTrack(0, testSongNotes, testSongDurations, testSongSize);
+    case 1:
+      playTrack(0, Sang_57_enkel_Notes1, Sang_57_enkel_Durations1, Sang_57_enkel_Size1);
+      playTrack(1, Sang_57_enkel_Notes2, Sang_57_enkel_Durations2, Sang_57_enkel_Size2);
+      break;
+      
+    case 2:
+      playTrack(0, thunderNotes, thunderDurations, thunderSize);
+      noteIndexes[1] = -1;
+      break;
+      
+    case 3:
+      playTrack(0, song69Notes, song69Durations, song69Size);
+      noteIndexes[1] = -1;
+      break;
+      
+    case 4:
+      playTrack(0, testSongNotes, testSongDurations, testSongSize);
+      noteIndexes[1] = -1;
+      break;
 
-  // playTrack(0, thunderNotes, thunderDurations, thunderSize);
-
-  // playTrack(0, Sang_57_enkel_Notes1, Sang_57_enkel_Durations1, Sang_57_enkel_Size1);
-  // playTrack(1, Sang_57_enkel_Notes2, Sang_57_enkel_Durations2, Sang_57_enkel_Size2);
-
-  playTrack(0, Holding_fast_enkel_Notes1, Holding_fast_enkel_Durations1, Holding_fast_enkel_Size1);
-  playTrack(1, Holding_fast_enkel_Notes2, Holding_fast_enkel_Durations2, Holding_fast_enkel_Size2);
+    default:
+      changeTrack(0);
+      break;
+  }
+  
+  if (noteIndexes[0] == -1 && noteIndexes[1] == -1) {
+    changeTrack(songNumber+1);
+  }
 }
 
 void playTrack(int toneIndex, int *notes, int *durations, int size) {
@@ -89,7 +135,15 @@ void playTrack(int toneIndex, int *notes, int *durations, int size) {
     if (noteIndexes[toneIndex] < size - 1) {
       noteIndexes[toneIndex]++;
     } else {
-      noteIndexes[toneIndex] = 0;
+      noteIndexes[toneIndex] = -1;
     }
   }
+}
+
+void changeTrack(int trackNumber) {
+  songNumber = trackNumber;
+  noteIndexes[0] = 0;
+  noteIndexes[1] = 0;
+  noteDurations[0] = 0;
+  noteDurations[1] = 0;
 }
